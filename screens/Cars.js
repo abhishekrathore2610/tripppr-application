@@ -9,9 +9,10 @@ import {
 import React from 'react';
 
 const Cars = ({route, navigation}) => {
-  const {responseData, pickupLocation,startdate} = route.params;
+  const {responseData, pickupLocation, startdate} = route.params;
   const dateTimeString = startdate;
   const dateTime = new Date(dateTimeString);
+
 
   const formattedDate = dateTime.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -30,13 +31,10 @@ const Cars = ({route, navigation}) => {
   console.log(formattedTime);
   const numberString = responseData.data[0].bucketPrice;
 
-// Using parseInt
-const number = parseInt(numberString, 10);
-const resultPrice = (number)/10
-// Output: 52
-
-
-
+  // Using parseInt
+  const number = parseInt(numberString, 10);
+  const resultPrice = number / 10;
+  // Output: 52
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{flexGrow: 1}}>
@@ -49,11 +47,10 @@ const resultPrice = (number)/10
       </TouchableOpacity> */}
       <View style={styles.navbar}>
         <View style={styles.left}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image source={require('../assets/ep_back.png')} />
           </TouchableOpacity>
-          <TouchableOpacity >
+          <TouchableOpacity>
             <Text style={{fontSize: 20, color: '#7F7F73'}}>Cars</Text>
           </TouchableOpacity>
         </View>
@@ -64,12 +61,19 @@ const resultPrice = (number)/10
       </View>
       <View style={styles.pickupLocationcontainer}>
         <View style={styles.pickuptext}>
-          <Text style={{color: '#7F7F73'}}>
+          <Text style={{color: '#7F7F73', fontSize:10,fontFamily: 'Montserrat-Light'}}>
             Pickup Location:
           </Text>
-          <Text style={{color:'black'}}>{pickupLocation}</Text>
-          <Text style={{color: 'black'}}>{formattedDate}</Text>
-          <Text style={{color: 'black'}}>{formattedTime}</Text>
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            style={{color: 'black', fontSize:10,fontFamily: 'Montserrat-Medium'}}>
+            {pickupLocation}
+          </Text>
+          <View style={{flexDirection:'row'}}>
+            <Text style={{color: 'black', fontSize:14,fontFamily: 'Montserrat-Bold'}}>{formattedDate}, </Text>
+            <Text style={{color: 'black', fontSize:14,fontFamily: 'Montserrat-Bold'}}>{formattedTime}</Text>
+          </View>
         </View>
         <View style={styles.filterimage}>
           <Image source={require('../assets/Filter.png')} />
@@ -77,12 +81,12 @@ const resultPrice = (number)/10
       </View>
       <View style={styles.cartemplate}>
         <View style={styles.top}>
-        <View style={styles.imagecontainer}>
-        <Image
-          source={{uri: responseData.data[0].images.front}}
-          style={{width: '100%', height: '100%'}}
-        />
-        </View>
+          <View style={styles.imagecontainer}>
+            <Image
+              source={{uri: responseData.data[0].images.front}}
+              style={{width: '100%', height: '100%', borderTopLeftRadius:10, borderTopRightRadius:10}}
+            />
+          </View>
           <View style={styles.carinfocontainer}>
             <View style={styles.carinfo}>
               <View style={styles.sixseaters}>
@@ -91,7 +95,9 @@ const resultPrice = (number)/10
                   resizeMode="center"
                   style={styles.imagex}
                 />
-                <Text style={{color: '#7F7F73'}}>{responseData.data[0].passengerLimit} seater</Text>
+                <Text style={{color: '#7F7F73', fontFamily:'Oswald-Medium'}}>
+                  {responseData.data[0].passengerLimit} seater
+                </Text>
               </View>
               <View style={styles.ac}>
                 <Image
@@ -99,7 +105,7 @@ const resultPrice = (number)/10
                   resizeMode="center"
                   style={styles.imagex}
                 />
-                <Text style={{color: '#7F7F73'}}>ac</Text>
+                <Text style={{color: '#7F7F73', fontFamily:'Oswald-Medium'}}>ac</Text>
               </View>
               <View style={styles.spedometer}>
                 <Image
@@ -107,7 +113,7 @@ const resultPrice = (number)/10
                   resizeMode="center"
                   style={styles.imagex}
                 />
-                <Text style={{color: '#7F7F73'}}>12km/hr</Text>
+                <Text style={{color: '#7F7F73', fontFamily:'Oswald-Medium'}}>12km/hr</Text>
               </View>
             </View>
           </View>
@@ -115,22 +121,31 @@ const resultPrice = (number)/10
 
         <View style={styles.bottom}>
           <View style={styles.left2}>
-            <Text style={{color:'black',fontSize:18,fontFamily:'Oswald-Medium'}}>{responseData.data[0].vehicleModel}</Text>
-            <Text style={{color: '#7F7F73'}}>Book now at just</Text>
-            <Text style={styles.twoninenineseven}>₹{resultPrice}</Text>
-            <Text style={{color: '#7F7F73'}}>Pay the rest later </Text>
+            <Text
+              style={{
+                color: '#000000A6',
+                fontSize: 18,
+                fontFamily: 'Oswald-Medium',
+                
+              }}>
+              {responseData.data[0].vehicleModel}
+            </Text>
+            <Text style={{color: '#99999999', marginTop:4}}>Book now at just <Text style={styles.twoninenineseven}>₹{String(resultPrice).split('.')[0]}</Text>. Pay the rest later</Text>
           </View>
           <View style={styles.right2}>
-            <Text style={styles.eightsixtwozero}>₹{responseData.data[0].bucketPrice}</Text>
+            <Text style={[{fontFamily: 'Oswald-Bold'},styles.eightsixtwozero]}>
+              ₹{responseData.data[0].bucketPrice}
+            </Text>
             <TouchableOpacity
               style={styles.rentnowbtn}
-              onPress={() => navigation.navigate('CarDetails',{responseData:responseData})}>
-              <Text style={styles.rentnowbtntext}>Details</Text>
+              onPress={() =>
+                navigation.navigate('CarDetails', {responseData: responseData})
+              }>
+              <Text style={[{fontFamily:'Oswald-Medium'}, styles.rentnowbtntext]}>Rent Now</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
-      
     </ScrollView>
   );
 };
@@ -175,22 +190,25 @@ const styles = StyleSheet.create({
   pickupLocationcontainer: {
     // backgroundColor:'red',
     width: '100%',
-    height: 100,
     marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    marginBottom: 100
+    marginBottom: 80,
+    gap:8
   },
   pickuptext: {
     borderWidth: 1,
-    borderColor: '#0056FB',
+    borderColor: '#C3D4E966',
     borderRadius: 10,
-    width: '86%',
-    height: '90%',
+    width: '84%',
     justifyContent: 'center',
-    padding: 5,
+    gap:4,
+    paddingVertical:6,
+    paddingLeft:16
+
   },
+  
   cartemplate: {
     width: '100%',
     height: 350,
@@ -202,10 +220,11 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 4,
+    elevation:2
   },
   top: {
     height: '60.5%',
-    backgroundColor:'pink',
+    backgroundColor: 'pink',
     position: 'relative',
     justifyContent: 'flex-end',
   },
@@ -228,13 +247,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-
     paddingTop: 40,
     marginTop: 2,
+    borderBottomLeftRadius:10,
+    borderBottomRightRadius:10
   },
   sixseaters: {
-    width: 60,
-    height: 60,
+   
     // backgroundColor:'indigo',
     justifyContent: 'center',
     alignItems: 'center',
@@ -242,16 +261,14 @@ const styles = StyleSheet.create({
   },
 
   ac: {
-    width: 50,
-    height: 50,
+    
     // backgroundColor:'indigo',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
   },
   spedometer: {
-    width: 60,
-    height: 60,
+    
     // backgroundColor:'indigo',
     justifyContent: 'center',
     alignItems: 'center',
@@ -273,7 +290,7 @@ const styles = StyleSheet.create({
   //   height: 128,
   // },
   left2: {
-    width: '50%',
+    width: '60%',
     height: 150,
     // backgroundColor:'pink',
     // justifyContent:'center'
@@ -281,7 +298,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   right2: {
-    width: '50%',
+    width: '40%',
     alignItems: 'flex-end',
     height: 150,
     // justifyContent: "center",
@@ -296,16 +313,17 @@ const styles = StyleSheet.create({
   },
   rentnowbtn: {
     backgroundColor: '#0056FB',
-    height: 50,
-    width: 100,
     justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 15,
-    marginTop: 10,
+    borderRadius: 10,
+    paddingVertical:8,
+    paddingHorizontal:16,
+    paddingBottom:10,
+    marginTop:10
   },
   rentnowbtntext: {
     color: 'white',
     fontSize: 16,
+    
   },
   // marutisuzukitext: {
   //   fontFamily: 'oswald',
@@ -316,17 +334,17 @@ const styles = StyleSheet.create({
     color: '#0056FB',
   },
   carinfo: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "50%",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '70%',
     // backgroundColor:'green',
     marginTop: 18,
+    marginBottom: 18,
   },
   imagecontainer: {
-    width:'100%',
-    height:'100%',
+    width: '100%',
+    height:'100%'
     // backgroundColor:'indigo'
-
-  }
+  },
 });

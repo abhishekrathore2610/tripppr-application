@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "460308516317",
+    "project_id": "trippr007-1529d",
+    "storage_bucket": "trippr007-1529d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:460308516317:android:c4cdeca8658f45494b7a34",
+        "android_client_info": {
+          "package_name": "com.trippr007"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "460308516317-r9ft29heabn4nuvdgnse4h81a4v3ig4c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.trippr007",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "460308516317-884517j6idmn3ta8h9vauhqc9rjpv842.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY7HU4x0iYxhDvWkBXsjUHmC-Vlnl6gNw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "460308516317-884517j6idmn3ta8h9vauhqc9rjpv842.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

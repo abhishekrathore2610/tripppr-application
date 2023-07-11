@@ -13,11 +13,7 @@ const EnjoyTrip = props => {
   return (
     <View style={styles.container}>
       <View style={styles.uppercontainer}>
-        <TouchableOpacity
-          onPress={() => props.navi.navigate('Login')}
-          style={styles.arrowbtn}>
-          <Text style={{color:'black',fontSize:20,color:'#5158D5',fontWeight:600}}>Next</Text>
-        </TouchableOpacity>
+        
         <Image
           source={require('../assets/enjoy-trip-new.png')}
           style={styles.image1}
@@ -35,6 +31,12 @@ const EnjoyTrip = props => {
         <Text style={styles.text2}>
           Discover new places and share with your friends and travel together
         </Text>
+
+        <TouchableOpacity
+          onPress={() => props.navi.navigate('Login')}
+          style={styles.arrowbtn}>
+          <Image style={{width:48, height:48}} source={require('../assets/next-arrow-icon.png')}/> 
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -74,26 +76,31 @@ const styles = StyleSheet.create({
     bottom: '33%',
     textAlign: 'center',
     width: '100%',
-    fontSize: 25,
-    // fontFamily:'Montserrat',
+    fontSize: 22,
+    fontFamily:'Montserrat-Bold',
     color: '#5158D5',
     fontWeight: '400',
+    textTransform:'uppercase',
+
     // letterSpacing:'.5'
   },
   text2: {
     position: 'absolute',
     bottom: '14%',
+    width:'100%',
+    fontFamily:'Montserrat-Light',
     textAlign: 'center',
-    width: '100%',
     color: '#9747FF',
     bottom: '20%',
+    paddingHorizontal:16
     // fontFamily:'Montserrat',
     // letterSpacing:'.7'
   },
   image1: {
     width: '95%',
-    height: '60%',
-    
+    height: '100%',
+    resizeMode:'contain',
+    marginTop:128
   },
   btn1: {
     position: 'absolute',
@@ -111,25 +118,9 @@ const styles = StyleSheet.create({
     bottom: '33%',
   },
   arrowbtn: {
-    backgroundColor:'#C2D6F2',
-
-    width: '20%',
-    // justifyContent:'flex-end',
-    alignItems: 'flex-end',
-    color: 'blue',
-    height:'10%',
-    // position:'absolute',
-    justifyContent:'center',
-    alignItems:'center',
-    borderColor:'lightblack',
-    borderWidth:1,
-    borderRadius:5,
     position:'absolute',
-    right:5,
-    top:600,
+    right:15,
+    bottom:10,
     zIndex:100
-    
-    
-
   },
 });

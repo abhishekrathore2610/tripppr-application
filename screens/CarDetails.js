@@ -30,7 +30,7 @@ const CarDetails = ({navigation, route}) => {
         </View> */}
       </View>
       <View style={styles.imageswipers}>
-        <Swiper style={styles.swiperconatiner}>
+        <Swiper style={styles.swiperconatiner} loop={false}>
         <Image
           source={{uri: responseData.data[0].images.front}}
           style={{width: '100%', height: '100%'}}
@@ -39,7 +39,18 @@ const CarDetails = ({navigation, route}) => {
           source={{uri: responseData.data[0].images.rear}}
           style={{width: '100%', height: '100%'}}
         />
-          
+        <Image
+          source={{uri: responseData.data[0].images.interior[0]}}
+          style={{width: '100%', height: '100%'}}
+        />
+        <Image
+          source={{uri: responseData.data[0].images.interior[1]}}
+          style={{width: '100%', height: '100%'}}
+        />
+          <Image
+          source={{uri: responseData.data[0].images.interior[2]}}
+          style={{width: '100%', height: '100%'}}
+        />
         </Swiper>
       </View>
       <View style={styles.carinteriorcontainer}>

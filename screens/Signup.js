@@ -6,10 +6,13 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Keyboard,Alert,ScrollView
-} from "react-native";
-import React from "react";
-import { useState } from "react";
+  Keyboard,
+  Alert,
+  ScrollView,
+} from 'react-native';
+import React from 'react';
+import {useState, useEffect} from 'react';
+// import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 //   import { FontAwesome5 } from "@expo/vector-icons";
 //   import { MaterialCommunityIcons } from "@expo/vector-icons";
 //   import { MaterialIcons } from "@expo/vector-icons";
@@ -17,33 +20,57 @@ import { useState } from "react";
 
 // import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const Signup = ({ navigation }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
+const Signup = ({navigation}) => {
+  // useEffect(()=> {
+  //   GoogleSignin.configure()
+  // },[])
 
-  
+  // const signIn = async () => {
+  //   try {
+  //     await GoogleSignin.hasPlayServices();
+  //     const userInfo = await GoogleSignin.signIn();
+  //     console.log('user info',userInfo)
+  //     navigation.navigate('Home')
+  //   } catch (error) {
+  //     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+  //       // user cancelled the login flow
+  //       console.log(error)
+  //     } else if (error.code === statusCodes.IN_PROGRESS) {
+  //       // operation (e.g. sign in) is in progress already
+  //       console.log(error)
+  //     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+  //       // play services not available or outdated
+  //       console.log(error)
+  //     } else {
+  //       // some other error happened
+  //       console.log(error)
+  //     }
+  //   }
+  // };
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
 
   const handlePostRequest = () => {
-    if(!name){
-       Alert.alert('Invalid Name', 'Please enter a valid Name.')
-       return;
-    } 
+    if (!name) {
+      Alert.alert('Invalid Name', 'Please enter a valid Name.');
+      return;
+    }
 
     if (!email || !email.includes('@')) {
       Alert.alert('Invalid Email', 'Please enter a valid email address.');
       return;
     }
 
-    if (!mobileNumber || mobileNumber.length !== 10){
+    if (!mobileNumber || mobileNumber.length !== 10) {
       Alert.alert('Invalid Phone Number', 'Please enter a valid Phone Number.');
     }
 
-    if(!password){
-      Alert.alert('Invalid Passward', 'Please enter a valid Password')
+    if (!password) {
+      Alert.alert('Invalid Passward', 'Please enter a valid Password');
       return;
-   } 
+    }
     const data = {
       name: name,
       email: email,
@@ -52,26 +79,26 @@ const Signup = ({ navigation }) => {
     };
 
     fetch(
-      "https://trippr-production-64zvm7t2wa-em.a.run.app/api/v1/auth/customer/register",
+      'https://trippr-production-64zvm7t2wa-em.a.run.app/api/v1/auth/customer/register',
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-      }
+      },
     )
-      .then((response) => response.json())
-      .then((responseData) => {
+      .then(response => response.json())
+      .then(responseData => {
         // Handle the response data here
-        console.log('yrwewetuyerwqrwe',responseData);
+        console.log('yrwewetuyerwqrwe', responseData);
       })
-      .catch((error) => {
+      .catch(error => {
         // Handle any errors here
         console.error(error);
       });
 
-      navigation.navigate('Home')
+    navigation.navigate('Home');
   };
 
   // const [inputText5, setInputText5] = useState("");
@@ -82,90 +109,78 @@ const Signup = ({ navigation }) => {
     <ScrollView style={styles.container}>
       <View style={styles.first}>
         <Image
-          source={require("../assets/signup-logo-new.png")}
+          source={require('../assets/signup-logo-new.png')}
           style={styles.image}
           resizeMode="center"
         />
       </View>
       <View style={styles.second}>
-        <View style={styles.usernamecontainer}>
-          {/* <FontAwesome5 name="user-alt" size={24} color="black" /> */}
+        <View style={styles.inputcontainer}>
+          <Image source={require('../assets/user-logo.png')}  style={{width:'10%',height:'50%'}}/>
           <TextInput
-            style={styles.inpu}
-            placeholder="Full Name"
-            placeholderTextColor="black"
-            value={name}
-            onChangeText={(e) => setName(e)}
-            returnKeyType="done"
-            onSubmitEditing={Keyboard.dismiss}
-          />
+          style={{width:'90%',height:'100%', fontSize:20,textAlignVertical:'center'}}
+          placeholder="Full Name"
+          placeholderTextColor="#7F7F73"
+          value={name}
+          onChangeText={e => setName(e)}
+          returnKeyType="done"
+          onSubmitEditing={Keyboard.dismiss}
+        />
         </View>
-        <View style={styles.usernamecontainer}>
-          {/* <MaterialCommunityIcons
-            name="email-outline"
-            size={24}
-            color="black"
-          /> */}
+
+        <View style={styles.inputcontainer}>
+          <Image source={require('../assets/gmail-logo.png')}  style={{width:'10%',height:'50%'}}/>
           <TextInput
-            style={styles.inpu}
-            placeholder="Email"
-            placeholderTextColor="black"
-            value={email}
-            onChangeText={(e) => setEmail(e)}
-            returnKeyType="done"
-            onSubmitEditing={Keyboard.dismiss}
-          />
+          style={{width:'90%',height:'100%', fontSize:20,textAlignVertical:'center'}}
+          placeholder="Email"
+          placeholderTextColor="#7F7F73"
+          value={name}
+          onChangeText={e => setName(e)}
+          returnKeyType="done"
+          onSubmitEditing={Keyboard.dismiss}
+        />
         </View>
-        <View style={styles.usernamecontainer3}>
-          <View style={styles.uppercontainer}>
-            {/* <MaterialIcons name="lock-outline" size={24} color="black" /> */}
-            <TextInput
-              style={styles.inpu}
-              placeholder="Password"
-              placeholderTextColor="black"
-              value={password}
-              onChangeText={(e) => setPassword(e)}
-              returnKeyType="done"
-              onSubmitEditing={Keyboard.dismiss}
-            />
-          </View>
-          <View style={styles.lowercontainer}>
-            {/* <MaterialCommunityIcons
-              name="eye-off-outline"
-              size={24}
-              color="black"
-            /> */}
-          </View>
-        </View>
-        <View style={styles.usernamecontainer}>
-          {/* <FontAwesome name="phone" size={24} color="black" /> */}
+
+        <View style={styles.inputcontainer}>
+          <Image source={require('../assets/lock-logo.png')}  style={{width:'10%',height:'65%'}}/>
           <TextInput
-            style={styles.inpu}
-            placeholder="Phone Number"
-            placeholderTextColor="black"
-            value={mobileNumber}
-            onChangeText={(e) => setMobileNumber(e)}
-            returnKeyType="done"
-            onSubmitEditing={Keyboard.dismiss}
-          />
+          style={{width:'90%',height:'100%', fontSize:20,textAlignVertical:'center'}}
+          placeholder="Password"
+          placeholderTextColor="#7F7F73"
+          value={name}
+          onChangeText={e => setName(e)}
+          returnKeyType="done"
+          onSubmitEditing={Keyboard.dismiss}
+        />
         </View>
-        {/* <TextInput
-          style={styles.input1}
+
+        <View style={styles.inputcontainer}>
+          <Image source={require('../assets/call-logo.png')}  style={{width:'10%',height:'50%'}}/>
+          <TextInput
+          style={{width:'90%',height:'100%', fontSize:20,textAlignVertical:'center'}}
           placeholder="Phone Number"
-          value={inputText5}
-          onChangeText={handleInput5}
-        /> */}
+          placeholderTextColor="#7F7F73"
+          value={name}
+          onChangeText={e => setName(e)}
+          returnKeyType="done"
+          onSubmitEditing={Keyboard.dismiss}
+        />
+        </View>
+
         <TouchableOpacity style={styles.loginbtn} onPress={handlePostRequest}>
           <Text style={styles.signuptext}>Signup</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.footer}>
         <Text style={styles.footertext}>Already have an account</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={styles.logintext}>Login</Text>
         </TouchableOpacity>
+        {/* <TouchableOpacity onPress={signIn}>
+          <Text style={styles.logintext}>Google Login</Text>
+        </TouchableOpacity> */}
       </View>
-      </ScrollView>
+    </ScrollView>
   );
 };
 
@@ -174,28 +189,29 @@ export default Signup;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "100%",
+    width: '100%',
     // justifyContent:'center',
     // alignItems:'center'
   },
   first: {
     flex: 0.5,
     // backgroundColor:'red',
-    width: "100%",
+    width: '100%',
     height: 300,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   image: {
     // width:'100%'
   },
   second: {
     flex: 0.4,
-    // backgroundColor:'aqua',
-    width: "100%",
-    height: "100%",
+    // backgroundColor: 'aqua',
+    width: '100%',
+    height:400,
     // justifyContent: "center",
-    alignItems: "center",
+    alignItems: 'center',
+    paddingTop:5
   },
   // input1: {
   //   width: "90%",
@@ -209,73 +225,120 @@ const styles = StyleSheet.create({
   //   borderColor: "#A17FE0",
   // },
   loginbtn: {
-    backgroundColor: "#A17FE0",
-    width: "65%",
-    height: "13%",
+    backgroundColor: "#0056FB",
+    width: "75%",
+    
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 15,
+    paddingVertical:12
   },
 
   footer: {
     // backgroundColor:'green',
     // justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
+    alignItems: 'center',
+    height: '100%',
     flex: 0.1,
     // paddingTop: 20,
-    marginTop:5
+    marginBottom:10
   },
   logintext: {
-    color: "#A17FE0",
+    color: '#0056FB',
     fontSize: 20,
   },
   signuptext: {
-    color: "white",
+    color: 'white',
+    fontSize:20
   },
   usernamecontainer: {
-    width: "90%",
-    height: "15%",
+    width: '90%',
+    height: '15%',
 
-    borderColor: "gray",
+    borderColor: 'gray',
     borderWidth: 1,
     paddingHorizontal: 15,
     marginBottom: 10,
     borderRadius: 10,
-    borderColor: "#A17FE0",
-    flexDirection: "row",
-    alignItems: "center",
+    borderColor: '#A17FE0',
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 15,
   },
 
   usernamecontainer3: {
-    width: "90%",
-    height: "15%",
+    width: '90%',
+    height: '15%',
 
-    borderColor: "gray",
+    borderColor: 'gray',
     borderWidth: 1,
     paddingHorizontal: 15,
     marginBottom: 10,
     borderRadius: 10,
-    borderColor: "#A17FE0",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    borderColor: '#A17FE0',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     // gap: 15,
   },
   uppercontainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 15,
+    backgroundColor: 'aqua',
   },
   footertext: {
     fontSize: 20,
-    textDecorationLine: "underline",
-  },
-  inpu: {
-    width: "82%",
-    // backgroundColor:'red',
-    fontSize: 18,
+    textDecorationLine: 'underline',
     color:'black'
   },
+  inpu: {
+    width: '82%',
+    // backgroundColor:'red',
+    fontSize: 18,
+    color: 'black',
+    width: "90%",
+    // height: "20%",
+
+    borderColor: "gray",
+    // borderWidth: 1,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    borderRadius: 10,
+    borderColor: "#A17FE0",
+    color:'black',
+    backgroundColor:'white',
+    shadowColor: 'grey',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation:4
+  },
+  inputcontainer: {
+    flexDirection:'row',
+    width: '82%',
+    // backgroundColor:'red',
+    fontSize: 18,
+    color: 'black',
+    width: "90%",
+    // height: "20%",
+
+    borderColor: "gray",
+    // borderWidth: 1,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    borderRadius: 10,
+    borderColor: "#A17FE0",
+    color:'black',
+    backgroundColor:'white',
+    shadowColor: 'grey',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation:4,
+    // justifyContent:'center',
+    alignItems:'center',
+    gap:5,
+    padding:5
+  }
 });

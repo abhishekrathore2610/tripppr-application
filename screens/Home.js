@@ -15,7 +15,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swiper from 'react-native-swiper';
 import SwiperHomeStays from './SwiperHomeStays';
 
-
 const Home = ({navigation, route}) => {
   const [buttonStates1, setButtonStates1] = useState([true, false, false]);
   const [buttonStates2, setButtonStates2] = useState([true, false, false]);
@@ -257,8 +256,8 @@ const Home = ({navigation, route}) => {
     <ScrollView style={styles.container} contentContainerStyle={{flexGrow: 1}}>
       <View style={styles.navbar}>
         <View style={styles.left}>
-          <TouchableOpacity >
-          <Image source={require('../assets/Menu.png')} />
+          <TouchableOpacity>
+            <Image source={require('../assets/Menu.png')} />
           </TouchableOpacity>
           <Text style={{fontSize: 25, color: '#7F7F73'}}>Home</Text>
         </View>
@@ -305,9 +304,15 @@ const Home = ({navigation, route}) => {
           style={[styles.button1, buttonStates1[0] && styles.activeButton1]}
           onPress={() => {
             handlePress1(0);
-            console.log(hsdata.property_name);
+            
           }}>
-          <Text style={styles.btntext}>Car</Text>
+          <Text
+            style={[
+              styles.btntext,
+              {color: buttonStates1[0] ? 'white' : 'black'},
+            ]}>
+            Cars
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -315,66 +320,166 @@ const Home = ({navigation, route}) => {
           onPress={() => {
             handlePress1(1);
           }}>
-          <Text style={styles.btntext}>Buses</Text>
+          <Text
+            style={[
+              styles.btntext,
+              {color: buttonStates1[1] ? 'white' : 'black'},
+            ]}>
+            Buses
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.button1, buttonStates1[2] && styles.activeButton1]}
-          onPress={() => handlePress1(2)}>
-          <Text style={styles.btntext}>Homestays</Text>
+          onPress={() => {
+            handlePress1(2);
+            navigation.navigate('Homestay')
+          }}>
+          <Text
+            style={[
+              styles.btntext,
+              {color: buttonStates1[2] ? 'white' : 'black'},
+            ]}>
+            Homestays
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={styles.taxitab}>
         <TouchableOpacity
           style={[styles.cont1, buttonStates2[0] && styles.activeButton2]}
           onPress={() => handlePress2(0)}>
-          <Image source={require('../assets/plane-takeoff.png')} />
-          <Text>Airport Cabs</Text>
+          <Image
+            source={require('../assets/plane-takeoff.png')}
+            style={{width: 25, height: 25, resizeMode: 'contain'}}
+          />
+          <Text
+            style={[
+              {fontFamily: 'Montserrat-Bold', fontSize: 11},
+              buttonStates2[0] ? {color: 'white'} : {color: 'black'},
+            ]}>
+            Airport Cabs
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.cont1, buttonStates2[1] && styles.activeButton2]}
           onPress={() => handlePress2(1)}>
           <Image source={require('../assets/car-local.png')} />
-          <Text>Local</Text>
+          <Text
+            style={[
+              {fontFamily: 'Montserrat-Bold', fontSize: 11},
+              buttonStates2[1] ? {color: 'white'} : {color: 'black'},
+            ]}>
+            Local
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.cont1, buttonStates2[2] && styles.activeButton2]}
           onPress={() => handlePress2(2)}>
           <Image source={require('../assets/car-outstation.png')} />
-          <Text>Outstation</Text>
+          <Text
+            style={[
+              {fontFamily: 'Montserrat-Bold', fontSize: 11},
+              buttonStates2[2] ? {color: 'white'} : {color: 'black'},
+            ]}>
+            Outstation
+          </Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.pickdropbox}>
         <TouchableOpacity
-          style={styles.choosebutton}
+          style={styles.pickupContainer}
           onPress={() => navigation.navigate('PickDropLocation')}>
-          <Text style={{fontSize: 16, fontWeight: 650, color: 'white'}}>
-            Choose Pickup & Drop Location
+          <Image
+            source={require('../assets/gps-new.png')}
+            resizeMode="center"
+            style={{width: 30, height: 30}}
+          />
+          {!pickupLocation && (
+            <Text style={[styles.fontMontSemi, {color: '#444'}]}>
+              Pickup Location
+            </Text>
+          )}
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            style={[styles.fontMontSemi, {color: 'black', flex: 1}]}>
+            {pickupLocation}
           </Text>
         </TouchableOpacity>
-
-        <TouchableOpacity style={styles.pickupContainer}>
+        <TouchableOpacity
+          style={styles.pickupContainer}
+          onPress={() => navigation.navigate('PickDropLocation')}>
           <Image
             source={require('../assets/gps-new.png')}
             resizeMode="center"
             style={{width: 30, height: 30}}
           />
-          <Text style={{color: 'black'}}>{pickupLocation}</Text>
+          {!dropLocation && (
+            <Text style={[styles.fontMontSemi, {color: '#444'}]}>
+              Drop Location
+            </Text>
+          )}
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            style={[styles.fontMontSemi, {color: 'black', flex: 1}]}>
+            {dropLocation}
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.pickupContainer}>
+        <TouchableOpacity
+          style={styles.pickupContainer}
+          onPress={showStartDateTimePicker}>
           <Image
-            source={require('../assets/gps-new.png')}
+            source={require('../assets/date-icon.png')}
             resizeMode="center"
-            style={{width: 30, height: 30}}
+            style={{width: 25, height: 25, resizeMode: 'contain'}}
           />
-          <Text style={{color: 'black'}}>{dropLocation}</Text>
+          {!startdate && (
+            <Text style={[styles.fontMontSemi, {color: '#444'}]}>
+              Start Date
+            </Text>
+          )}
+          {startdate && (
+            <Text style={[styles.fontMontSemi, {color: 'black', flex: 1}]}>
+              {formatDateTime(startdate)}
+            </Text>
+          )}
+          <DateTimePickerModal
+            isVisible={isStartDateTimePickerVisible}
+            mode="datetime"
+            onConfirm={handleStartConfirm}
+            onCancel={hideStartDateTimePicker}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.pickupContainer}
+          onPress={showEndDateTimePicker}>
+          <Image
+            source={require('../assets/date-icon.png')}
+            resizeMode="center"
+            style={{width: 25, height: 25, resizeMode: 'contain'}}
+          />
+          {!enddate && (
+            <Text style={[styles.fontMontSemi, {color: '#444'}]}>End Date</Text>
+          )}
+          {enddate && (
+            <Text style={[styles.fontMontSemi, {color: 'black', flex: 1}]}>
+              {formatDateTime(enddate)}
+            </Text>
+          )}
+          <DateTimePickerModal
+            isVisible={isEndDateTimePickerVisible}
+            mode="datetime"
+            onConfirm={handleEndConfirm}
+            onCancel={hideEndDateTimePicker}
+          />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.datetimecontainer}>
+      {/* <View style={styles.datetimecontainer}>
         <View style={styles.startdate}>
           <Button
             title="Start Date & Time"
@@ -412,7 +517,7 @@ const Home = ({navigation, route}) => {
             />
           </View>
         </View>
-      </View>
+      </View> */}
       <View style={styles.passengercontainer}>
         <View style={styles.passengerinfo}>
           <View style={styles.passengertext}>
@@ -421,7 +526,9 @@ const Home = ({navigation, route}) => {
               resizeMode="center"
               style={{width: 30, height: 30}}
             />
-            <Text style={{fontSize: 16, color: 'black'}}>Passengers</Text>
+            <Text style={[styles.fontMontSemi, {fontSize: 16, color: '#444'}]}>
+              Passengers
+            </Text>
           </View>
           <View style={styles.passengernumber}>
             <TouchableOpacity onPress={() => setPassengers(passengers - 1)}>
@@ -430,23 +537,32 @@ const Home = ({navigation, route}) => {
             <Text style={{fontSize: 20, color: 'black'}}>{passengers}</Text>
             {/* <TextInput value={passengers} keyboardType="numeric" style={{borderWidth:1,width:'50%',height:'auto',borderRadius:5,color:'black',fontSize:15,margin:1}} onChange={handlePassengers} borderColor='#0056FB'/> */}
             <TouchableOpacity onPress={() => setPassengers(passengers + 1)}>
-              <Text style={{fontSize: 20, color: 'black'}}>+</Text>
+              <Text
+                style={[styles.fontMontSemi, {fontSize: 20, color: 'black'}]}>
+                +
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
       <View style={styles.submitbuttoncontainer}>
         <TouchableOpacity style={styles.submitbutton} onPress={handleSubmit}>
-          <Text style={{fontSize: 23, color: 'white'}}>Submit</Text>
+          <Text style={[styles.fontMontSemi, {fontSize: 23, color: 'white'}]}>
+            Search
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={styles.homestaycontainer}>
-       <View style={{width:'100%',height:'20%',marginBottom:10}}>
-       <Text style={{color: 'black', fontSize: 25}}>
-          Experience the warmth of home in our cozy homestays.
-        </Text>
-       </View>
-        <SwiperHomeStays />
+        <View style={{width: '100%', paddingHorizontal: 8}}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 18,
+              fontFamily: 'Montserrat-Bold',
+            }}>
+            Experience the warmth of home in our cozy homestays.
+          </Text>
+        </View>
 
         {/* <Swiper showsPagination={false}>
           {hsdata && hsdata.length > 0 ? (
@@ -471,6 +587,7 @@ const Home = ({navigation, route}) => {
           )}
         </Swiper> */}
       </View>
+      <SwiperHomeStays />
     </ScrollView>
   );
 };
@@ -483,7 +600,7 @@ const styles = StyleSheet.create({
     width: '100%',
     // height:'100%',
     // backgroundColor: "red",
-    padding: 8,
+    padding: 4,
     gap: 10,
     backgroundColor: 'white',
   },
@@ -495,6 +612,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 50,
+  },
+  fontMontSemi: {
+    fontFamily: 'Montserrat-Medium',
   },
 
   left: {
@@ -584,105 +704,122 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // alignItems:'center',
     height: 40,
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
+    gap: 12,
     alignItems: 'center',
     marginTop: 15,
   },
   button1: {
     backgroundColor: 'white',
-    width: '25%',
-    height: 30,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: 'grey',
-    borderWidth: 1,
+    borderColor: '#999',
+    borderWidth: 1.5,
     // marginTop: 20,
+    padding: 4,
+    paddingHorizontal: 8,
+    color: 'black',
   },
   btntext: {
+    fontFamily: 'Montserrat-SemiBold',
     color: 'black',
   },
   activeButton1: {
     backgroundColor: 'grey',
   },
   activeButton2: {
-    backgroundColor: '#0056FB',
+    backgroundColor: '#0373fc',
   },
   taxitab: {
     backgroundColor: 'white',
-    width: '100%',
+    width: '99%',
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     height: 70,
     alignItems: 'center',
+    marginRight: 2,
+    marginLeft: 2,
     // borderWidth: 1,
     borderRadius: 10,
     shadowColor: 'black',
     // shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.5,
     shadowRadius: 10,
-    marginTop: 15,
+    elevation: 8,
+    marginTop: 24,
+    paddingLeft: 8,
+    paddingRight: 8,
   },
   cont1: {
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
+    gap: 8,
     backgroundColor: 'white',
     borderColor: 'black',
     // borderWidth: 1,
     padding: 5,
     height: 60,
-    width: '27%',
-    borderRadius: 20,
+    width: '30%',
+    borderRadius: 10,
   },
   pickupContainer: {
-    borderWidth: 1,
-    borderColor: '#0056FB',
-    width: '90%',
-    height: 40,
+    zIndex: 10,
+    backgroundColor: 'white',
+    width: '95%',
+    height: 45,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
     borderRadius: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 5,
+    paddingHorizontal: 4,
   },
   pickdropbox: {
     // backgroundColor: "green",
-    height: 160,
     width: '100%',
     alignItems: 'center',
 
     position: 'relative',
-    // marginTop: 10,
     justifyContent: 'center',
     // marginTop: 15,
     gap: 15,
     justifyContent: 'flex-end',
+    marginTop: 24,
   },
   choosebutton: {
-    backgroundColor: '#0056FB',
-    width: '60%',
+    backgroundColor: '#0373fc',
+    width: '80%',
     height: '25%',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+    padding: 8,
   },
   passengercontainer: {
     width: '100%',
     height: 100,
     // backgroundColor:'red',
 
-    marginBottom: 20,
+    marginTop: 10,
     alignItems: 'center',
     // justifyContent: 'center',
-    paddingTop: 20,
   },
   passengerinfo: {
-    width: '90%',
+    width: '95%',
     // backgroundColor:'indigo',
-    height: 40,
-    borderWidth: 1,
+    height: 45,
+    backgroundColor: 'white',
     borderRadius: 10,
-    borderColor: '#0056FB',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 5,
+    paddingHorizontal: 4,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -740,16 +877,14 @@ const styles = StyleSheet.create({
   },
   homestaycontainer: {
     width: '100%',
-    height: 320,
     // backgroundColor: 'red',
-    marginBottom: 30,
+    marginBottom: 10,
     // padding: 30,
     // justifyContent:'center',
     // alignItems:'center'
   },
   homestaytemplate: {
     width: '100%',
-    height: '100%',
     backgroundColor: 'lightgrey',
     borderRadius: 15,
     padding: 5,

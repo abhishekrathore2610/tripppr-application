@@ -9,13 +9,17 @@ import Home from './screens/Home';
 import PickDropLocation from './screens/PickDropLocation';
 import Cars from './screens/Cars';
 import CarDetails from './screens/CarDetails';
+import linking from './linking';
+import Homestay from './screens/Homestay';
+import HomestayDetail from './screens/HomestayDetail';
+
 
 
 const Stack = createStackNavigator();
 
 function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Swiper" component={SwiperScreen} />
         {/* <Stack.Screen name="Screen4" component={Screen4} />
@@ -26,6 +30,9 @@ function App() {
         <Stack.Screen name='PickDropLocation' component={PickDropLocation}/>
         <Stack.Screen name='Cars' component={Cars}/>
         <Stack.Screen name='CarDetails' component={CarDetails}/>
+        <Stack.Screen name='Homestay' component={Homestay}/>
+        <Stack.Screen name='HomestayDetail' component={HomestayDetail}/>
+        
         
         
       </Stack.Navigator>
